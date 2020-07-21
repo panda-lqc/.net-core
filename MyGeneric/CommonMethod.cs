@@ -12,7 +12,7 @@ namespace MyGeneric
         /// <param name="iParameter"></param>
         public static void ShowInt(int iParameter)
         {
-            Console.WriteLine($"This is {typeof(CommonMethod).Name},parameter={iParameter.GetType().Name},type={iParameter}");
+            Console.WriteLine($"This is {typeof(CommonMethod).Name},parameter={iParameter},type={iParameter.GetType().Name}");
         }
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace MyGeneric
         /// <param name="sParameter"></param>
         public static void ShowString(string sParameter) 
         {
-            Console.WriteLine($"This is {typeof(CommonMethod).Name},parameter={sParameter.GetType().Name},type={sParameter}");
+            Console.WriteLine($"This is {typeof(CommonMethod).Name},parameter={sParameter},type={sParameter.GetType().Name}");
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace MyGeneric
         /// <param name="dtParameter"></param>
         public static void ShowDateTime(DateTime dtParameter) 
         {
-            Console.WriteLine($"This is {typeof(CommonMethod).Name},parameter={dtParameter.GetType().Name},type={dtParameter}");
+            Console.WriteLine($"This is {typeof(CommonMethod).Name},parameter={dtParameter},type={dtParameter.GetType().Name}");
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace MyGeneric
         /// <param name="oParameter"></param>
         public static void ShowObject(object oParameter) 
         {
-            Console.WriteLine($"This is {typeof(CommonMethod).Name},parameter={oParameter.GetType().Name},type={oParameter}");
+            Console.WriteLine($"This is {typeof(CommonMethod).Name},parameter={oParameter},type={oParameter.GetType().Name}");
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace MyGeneric
         /// <param name="tParameter"></param>
         public static void Show<T>(T tParameter) 
         {
-            Console.WriteLine($"This is {typeof(CommonMethod).Name},parameter={tParameter.GetType().Name},type={tParameter}");
+            Console.WriteLine($"This is {typeof(CommonMethod).Name},parameter={tParameter},type={tParameter.GetType().Name}");
         }
     }
 }
