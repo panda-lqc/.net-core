@@ -1,10 +1,41 @@
-﻿using System;
+﻿using Reflection.Interface;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Reflection;
 using System.Text;
 
 namespace MyReflection
 {
-    class SimpleFactory
+    public class SimpleFactory
     {
+        private static string dbHelperConfig = ConfigurationManager.AppSettings[""];
+        private static string dllName = dbHelperConfig.Split(',')[0];
+        private static string typeName = dbHelperConfig.Split(',')[1];
+
+
+        public static IDBHelper GetSqlServerHelper() 
+        {
+            Assembly assembly = Assembly.Load("Reflection.DB.SqlServer");
+            Type type = assembly.GetType("Reflection.DB.SqlServer.SqlServerHelper");
+            var dbHelper = Activator.CreateInstance(type);
+            return dbHelper as IDBHelper;
+        }
+
+        public static IDBHelper GetMySqlHelper() 
+        {
+            Assembly assembly = Assembly.Load("Reflection.DB.Mysql");
+            Type type = assembly.GetType("Reflection.DB.Mysql.MySqlHelper");
+            var dbHelper = Activator.CreateInstance(type);
+            return dbHelper as IDBHelper;
+        }
+
+        public static IDBHelper GetCurrentDBHelper() 
+        {
+            Assembly assembly = Assembly.Load(dllName);
+            Type type = assembly.GetType(typeName);
+            var dbHelper = Activator.CreateInstance(type);
+            return dbHelper as IDBHelper;
+        }
     }
 }

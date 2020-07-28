@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Reflection.Interface;
+using System;
 
 namespace MyReflection
 {
@@ -7,6 +8,9 @@ namespace MyReflection
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+
+            IDBHelper helper = SimpleFactory.GetMySqlHelper();
+            helper.Query();
         }
     }
 }
