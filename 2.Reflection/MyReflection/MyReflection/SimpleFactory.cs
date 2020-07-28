@@ -9,9 +9,9 @@ namespace MyReflection
 {
     public class SimpleFactory
     {
-        private static string dbHelperConfig = ConfigurationManager.AppSettings[""];
-        private static string dllName = dbHelperConfig.Split(',')[0];
-        private static string typeName = dbHelperConfig.Split(',')[1];
+        private static readonly string dbHelperConfig = ConfigurationManager.AppSettings["DBHelperConfig"];
+        private static readonly string dllName = dbHelperConfig.Split(',')[1];
+        private static readonly string typeName = dbHelperConfig.Split(',')[0];
 
 
         public static IDBHelper GetSqlServerHelper() 

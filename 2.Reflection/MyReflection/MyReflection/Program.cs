@@ -11,6 +11,9 @@ namespace MyReflection
 
             IDBHelper helper = SimpleFactory.GetMySqlHelper();
             helper.Query();
+
+            IDBHelper currentDbHelper = SimpleFactory.GetCurrentDBHelper();
+            currentDbHelper.Query();
         }
     }
 }
