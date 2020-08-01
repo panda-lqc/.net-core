@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MyAttribute
+namespace MyAttribute.Attr
 {
+    [AttributeUsage(AttributeTargets.Field)]
     internal class DescriptionAttribute : Attribute
     {
         public string Dscription { get; private set; }

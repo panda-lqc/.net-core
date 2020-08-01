@@ -1,4 +1,5 @@
-﻿using MyAttribute.CustomEnum;
+﻿using MyAttribute.Attr;
+using MyAttribute.CustomEnum;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +16,11 @@ namespace MyAttribute
         public string Name { get; set; }
         public UserState state { get; set; }
 
+        [Salary(1000000)]
+        public double salary { get; set; }
+
+        [QQNumberLength(_maxLength = 11, _minLength = 5)]
+        public string QQNumber;
 
         public void Study() 
         {

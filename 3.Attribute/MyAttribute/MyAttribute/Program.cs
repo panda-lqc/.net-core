@@ -1,4 +1,5 @@
-﻿using MyAttribute.CustomEnum;
+﻿using MyAttribute.AttrExtend;
+using MyAttribute.CustomEnum;
 using System;
 
 namespace MyAttribute
@@ -14,10 +15,14 @@ namespace MyAttribute
             {
                 Id= 1,
                 Name = "lqc",
-                state = UserState.Forzen
+                state = UserState.Forzen,
+                salary = 800000
             };
 
-            Console.WriteLine(EnumExt.GetDescriptionThirdPart<CustomEnum.UserState>(student.state));
+            //Validate.Validating(student);
+            student.Validating();
+
+            Console.WriteLine(EnumExt.GetDescriptionThirdPart<UserState>(student.state));
             Console.WriteLine(student.state.GetDescription());
         }
     }
