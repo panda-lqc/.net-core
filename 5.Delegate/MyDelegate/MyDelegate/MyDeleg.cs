@@ -4,6 +4,8 @@ using System.Text;
 
 namespace MyDelegate
 {
+    public delegate void NoReturnNonParaOutClass();
+
     public class MyDeleg
     {
 
