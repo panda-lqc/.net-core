@@ -142,7 +142,7 @@ namespace Advanced.Service
             Type type = typeof(T);
 
             string updString = string.Join(",", type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-                .Where(p => !p.Name.Equals("Id")).Select(p => $"{p.Name}={p.GetValue(t)}"));
+                .Where(p => !p.Name.Equals("Id")).Select(p => $"{p.Name}=@{p.Name}"));
             string sql = $"UPDATE {type.Name} SET {updString} WHERE Id = @Id";
 
             using (MySqlConnection conn = new MySqlConnection(connString))
@@ -152,7 +152,15 @@ namespace Advanced.Service
                 {
                     conn.Open();
                 }
-                cmd.Parameters.Add(new MySqlParameter("@Id", t.Id));
+
+                List<MySqlParameter> para = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+                .Select(item => new MySqlParameter()
+                {
+                    ParameterName = $"{item.Name}",
+                    Value = item.GetValue(t)
+                }).ToList();
+
+                cmd.Parameters.AddRange(para.ToArray());
 
                 return cmd.ExecuteNonQuery() > 0;
             }
