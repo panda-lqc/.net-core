@@ -54,7 +54,6 @@ namespace Advanced.Service
         {
             Type type = typeof(T);
 
-            //var propName = string.Join(',', type.GetProperties().Select(a => $"[{a.Name}]"));
             string sql = $"DELETE {type.Name} WHERE Id = @Id";
             using (MySqlConnection conn = new MySqlConnection(connString))
             {
