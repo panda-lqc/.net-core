@@ -45,21 +45,28 @@ namespace Advanced.Service
 
                 cmd.Parameters.AddRange(para.ToArray());
 
-                int count = cmd.ExecuteNonQuery();
-                if (count > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return cmd.ExecuteNonQuery() > 0;
             }
         }
 
         public bool Delete<T>(T t) where T : BaseModel
         {
-            throw new NotImplementedException();
+            Type type = typeof(T);
+
+            //var propName = string.Join(',', type.GetProperties().Select(a => $"[{a.Name}]"));
+            string sql = $"DELETE {type.Name} WHERE Id = @Id";
+            using (MySqlConnection conn = new MySqlConnection(connString))
+            {
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+
+                cmd.Parameters.Add(new MySqlParameter("@Id", t.Id));
+
+                return cmd.ExecuteNonQuery() > 0;
+            }
         }
 
         public T Find<T>(int Id) where T : BaseModel
@@ -132,7 +139,23 @@ namespace Advanced.Service
 
         public bool Update<T>(T t) where T : BaseModel
         {
-            throw new NotImplementedException();
+            Type type = typeof(T);
+
+            string updString = string.Join(",", type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+                .Where(p => !p.Name.Equals("Id")).Select(p => $"{p.Name}={p.GetValue(t)}"));
+            string sql = $"UPDATE {type.Name} SET {updString} WHERE Id = @Id";
+
+            using (MySqlConnection conn = new MySqlConnection(connString))
+            {
+                MySqlCommand cmd = new MySqlCommand(sql,conn);
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                cmd.Parameters.Add(new MySqlParameter("@Id", t.Id));
+
+                return cmd.ExecuteNonQuery() > 0;
+            }
         }
     }
 }
