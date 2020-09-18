@@ -1,14 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Advanced.Factory\Advanced.Factory.csproj" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Advanced.IService\Advanced.IService.csproj" />
-    <ProjectReference Include="..\Advanced.Service\Advanced.Service.csproj" />
   </ItemGroup>
 
 </Project>

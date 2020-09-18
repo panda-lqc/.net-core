@@ -8,12 +8,13 @@ using MySql.Data;
 using MySql.Data.MySqlClient;
 using System.Data;
 using System.Reflection;
+using System.Configuration;
 
 namespace Advanced.Service
 {
     public class MysqlServiceDal : IServiceDal
     {
-        public string connString = "";
+        public string connString = ConfigurationManager.ConnectionStrings["PracticeDB"].ToString();
 
         public bool Add<T>(T t) where T : BaseModel
         {
@@ -21,12 +22,12 @@ namespace Advanced.Service
             object obj = Activator.CreateInstance(type);
 
             var propName = string.Join(',', type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-                .Where(p => !p.Name.Equals("Id")).Select(t => $"[{t.Name}]"));
+                .Where(p => !p.Name.Equals("Id")).Select(t => $"{t.Name}"));
             
             var propValue = string.Join(',', type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
                 .Where(p => !p.Name.Equals("Id")).Select(a => $"@{a.Name}"));
 
-            string sql = $"INSERT INTO [{type.Name}]({propName}) VALUES({propValue})";
+            string sql = $"INSERT INTO {type.Name}({propName}) VALUES({propValue})";
 
             using (MySqlConnection conn = new MySqlConnection(connString))
             {
@@ -74,7 +75,7 @@ namespace Advanced.Service
             Type type = typeof(T);
             object obj = Activator.CreateInstance(type);
 
-            var propName = string.Join(',', type.GetProperties().Select(a => $"[{a.Name}]"));
+            var propName = string.Join(',', type.GetProperties().Select(a => $"{a.Name}"));
             string sql = $"SELECT {propName} FROM {type.Name} WHERE Id = @Id";
 
             using (MySqlConnection conn = new MySqlConnection(connString)) 
@@ -111,7 +112,7 @@ namespace Advanced.Service
 
             Type type = typeof(T);
             
-            var propName = string.Join(',', type.GetProperties().Select(a => $"[{a.Name}]"));
+            var propName = string.Join(',', type.GetProperties().Select(a => $"{a.Name}"));
             string sql = $"SELECT {propName} FROM {type.Name}";
             using (MySqlConnection conn = new MySqlConnection(connString))
             {
@@ -153,7 +154,7 @@ namespace Advanced.Service
                     conn.Open();
                 }
 
-                List<MySqlParameter> para = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+                List<MySqlParameter> para = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Select(item => new MySqlParameter()
                 {
                     ParameterName = $"{item.Name}",
